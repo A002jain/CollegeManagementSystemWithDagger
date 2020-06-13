@@ -1,5 +1,8 @@
 package com.cms.validator;
 
+import com.cms.model.Student;
+import com.cms.model.Teacher;
+
 public class CmsValidator implements ICmsValidator {
     @Override
     public boolean nameValidator(String name) {
@@ -23,5 +26,42 @@ public class CmsValidator implements ICmsValidator {
         if(n>100 && n>-1)
             return false;
         return true;
+    }
+
+    @Override
+    public boolean rollNoValidator(String rollNo){
+        //TODO: implement rollNo validator
+        return true;
+    }
+
+    @Override
+    public boolean salaryValidator(int salary){
+        if(salary > 0)
+            return true;
+        return false;
+    }
+
+    @Override
+    public boolean subjectValidator(String subject){
+        return nameValidator(subject);
+        //TODO: create list of subject and check the list of subject available
+    }
+
+    @Override
+    public boolean studentValidator(Student student) {
+        return (nameValidator(student.getName()) &&
+                ageValidator(student.getAge())  &&
+                percentValidator(student.getPercent()) &&
+                rollNoValidator(student.getRollNo())
+        );
+    }
+
+    @Override
+    public boolean teacherValidation(Teacher teacher) {
+        return (nameValidator(teacher.getName()) &&
+                ageValidator(teacher.getAge())  &&
+                salaryValidator(teacher.getSalary()) &&
+                subjectValidator(teacher.getSubject())
+        );
     }
 }

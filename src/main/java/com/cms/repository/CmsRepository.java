@@ -27,7 +27,24 @@ public class CmsRepository implements ICmsRepository {
 
     @Override
     public DbModel read(String key) {
-        return database.get(1);
+        String[] metaData=key.split("#");
+        String mapper=metaData[0];
+        String id=metaData[1];
+        switch (mapper){
+            case "student":
+                for(DbModel dbModel:database){
+                    if(dbModel.getStudent().getRollNo().equals(id))
+                        return dbModel;
+                }
+                break;
+            case "teacher":
+                for(DbModel dbModel:database){
+                    if(dbModel.getTeacher().getName().equals(id))
+                        return dbModel;
+                }
+                break;
+        }
+        return null;
     }
 
     @Override
@@ -44,7 +61,11 @@ public class CmsRepository implements ICmsRepository {
     }
 
     @Override
-    public ArrayList<DbModel> listN(int n) {
-        return database;
+    public void listN(int n) {
+
+        for(DbModel dbModel: database){
+            System.out.println("->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+            System.out.println(dbModel.toString());
+        }
     }
 }

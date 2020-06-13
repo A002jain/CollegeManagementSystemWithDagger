@@ -12,5 +12,5 @@ public interface ICmsRepository {
     DbModel read(String key);
     void delete(String key);
     void listN();
-    ArrayList<DbModel> listN(int n);
+    void listN(int n);
 }

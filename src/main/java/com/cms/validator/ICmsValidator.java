@@ -1,5 +1,8 @@
 package com.cms.validator;
 
+import com.cms.model.Student;
+import com.cms.model.Teacher;
+
 public interface ICmsValidator {
 
     String INT_REGEX="^[0-9]*$";
@@ -11,4 +14,14 @@ public interface ICmsValidator {
     boolean ageValidator(int age);
 
     boolean percentValidator(double n);
+
+    boolean rollNoValidator(String rollNo);
+
+    public boolean salaryValidator(int salary);
+
+    public boolean subjectValidator(String subject);
+
+    boolean studentValidator(Student student);
+
+    boolean teacherValidation(Teacher teacher);
 }

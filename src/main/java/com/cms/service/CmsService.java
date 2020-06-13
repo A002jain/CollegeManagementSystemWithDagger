@@ -3,9 +3,12 @@ package com.cms.service;
 import com.cms.component.DaggerObjComponent;
 import com.cms.database.Database;
 import com.cms.database.DbModel;
+import com.cms.exception.CmsException;
 import com.cms.model.Student;
 import com.cms.model.Teacher;
 import com.cms.repository.ICmsRepository;
+import com.cms.stream.Input;
+import com.cms.stream.Output;
 import com.cms.validator.ICmsValidator;
 
 import javax.inject.Inject;
@@ -13,6 +16,8 @@ import java.util.ArrayList;
 
 public class CmsService implements ICmsService {
 
+    Input input;
+    Output output;
     ICmsRepository repository;
     Database database;
     DbModel dbModel;
@@ -22,39 +27,17 @@ public class CmsService implements ICmsService {
     ICmsValidator validator;
 
     @Inject
-    public CmsService(ICmsRepository repository, ICmsValidator validator){
+    public CmsService(ICmsRepository repository, ICmsValidator validator,Input input,Output output){
         this.validator=validator;
         this.repository=repository;
+        this.input=input;
+        this.output=output;
     }
 
     @Override
-    public DbModel create() {
-        dbModel= DaggerObjComponent.create().provideDbModel();
-        teacher= DaggerObjComponent.create().provideTeacher();
-        student= DaggerObjComponent.create().provideStudent();
-        if(flag) {
-            teacher.setName("Abhi");
-            teacher.setSalary(9000);
-            teacher.setSubject("Physics");
-            student.setName("Abhinav");
-            student.setPercent(90.43);
-            student.setRollNo("03");
-            dbModel.setStudent(student);
-            dbModel.setTeacher(teacher);
-            repository.create(dbModel);
-            flag=false;
-        }else{
-            teacher.setName("Harshit");
-            teacher.setSalary(4000);
-            teacher.setSubject("Math");
-            student.setName("Deepanshu");
-            student.setPercent(99.43);
-            student.setRollNo("04");
-            dbModel.setStudent(student);
-            dbModel.setTeacher(teacher);
-            repository.create(dbModel);
-            flag=true;
-        }
+    public DbModel create() throws CmsException {
+        repository.create(put());
+        output.print(dbModel);
         return dbModel;
     }
 
@@ -64,17 +47,40 @@ public class CmsService implements ICmsService {
     }
 
     @Override
-    public void read(DbModel key) {
-        System.out.println(repository.read("1"));
+    public void read(String key) {
+        output.print(repository.read(key));
     }
 
     @Override
-    public void delete(DbModel key) {
-        repository.delete("1");
+    public void delete(String key) {
+        repository.delete(key);
     }
 
     @Override
-    public void listN(int n) {
+    public void listN() {
         repository.listN();
     }
+
+    private DbModel put() throws CmsException {
+        dbModel= DaggerObjComponent.create().provideDbModel();
+        teacher= DaggerObjComponent.create().provideTeacher();
+        student= DaggerObjComponent.create().provideStudent();
+        output.print("Enter Teacher Details");
+        teacher.setName(input.getString("Name: "));
+        teacher.setAge(input.getInt("Age: "));
+        teacher.setSalary(input.getInt("Salary: "));
+        teacher.setSubject(input.getString("Subject: "));
+        output.print("Enter Student Details");
+        student.setName(input.getString("Name: "));
+        student.setAge(input.getInt("Age: "));
+        student.setRollNo(input.getString("RollNo: "));
+        student.setPercent(Double.parseDouble(input.getString("Percentage: ")));
+        if(validator.studentValidator(student) && validator.teacherValidation(teacher))
+        dbModel.setStudent(student);
+        dbModel.setTeacher(teacher);
+        return dbModel;
+
+    }
+
+
 }
