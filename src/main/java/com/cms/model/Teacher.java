@@ -5,10 +5,7 @@ public class Teacher {
     private String subject;
     private String name;
     private int salary;
-
-    public String getSubject() {
-        return subject;
-    }
+    private int age;
 
     @Override
     public String toString() {
@@ -16,7 +13,20 @@ public class Teacher {
                 "subject='" + subject + '\'' +
                 ", name='" + name + '\'' +
                 ", salary=" + salary +
+                ", age=" + age +
                 '}';
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public String getSubject() {
+        return subject;
     }
 
     public void setSubject(String subject) {

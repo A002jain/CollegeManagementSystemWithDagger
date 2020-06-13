@@ -10,9 +10,13 @@ import com.cms.provider.DbModule_ProvideStudentFactory;
 import com.cms.provider.DbModule_ProvideTeacherFactory;
 import com.cms.provider.DbModule_ProvidesDatabaseFactory;
 import com.cms.provider.DbModule_ProvidesDbModelFactory;
+import com.cms.provider.DbModule_ProvidesInputFactory;
+import com.cms.provider.DbModule_ProvidesOutputFactory;
 import com.cms.repository.CmsRepository;
 import com.cms.service.CmsService;
 import com.cms.service.ICmsService;
+import com.cms.stream.Input;
+import com.cms.stream.Output;
 import com.cms.validator.ICmsValidator;
 import dagger.internal.DoubleCheck;
 import dagger.internal.Preconditions;
@@ -31,6 +35,10 @@ public final class DaggerObjComponent implements ObjComponent {
   private Provider<Database> providesDatabaseProvider;
 
   private Provider<ICmsValidator> provideIValidatorProvider;
+
+  private Provider<Input> providesInputProvider;
+
+  private Provider<Output> providesOutputProvider;
 
   private Provider<DbModel> providesDbModelProvider;
 
@@ -55,12 +63,14 @@ public final class DaggerObjComponent implements ObjComponent {
     return new CmsRepository(providesDatabaseProvider.get());}
 
   private CmsService getCmsService() {
-    return new CmsService(getCmsRepository(), provideIValidatorProvider.get());}
+    return new CmsService(getCmsRepository(), provideIValidatorProvider.get(), providesInputProvider.get(), providesOutputProvider.get());}
 
   @SuppressWarnings("unchecked")
   private void initialize(final DbModule dbModuleParam) {
     this.providesDatabaseProvider = DoubleCheck.provider(DbModule_ProvidesDatabaseFactory.create(dbModuleParam));
     this.provideIValidatorProvider = DoubleCheck.provider(DbModule_ProvideIValidatorFactory.create(dbModuleParam));
+    this.providesInputProvider = DoubleCheck.provider(DbModule_ProvidesInputFactory.create(dbModuleParam));
+    this.providesOutputProvider = DoubleCheck.provider(DbModule_ProvidesOutputFactory.create(dbModuleParam));
     this.providesDbModelProvider = DoubleCheck.provider(DbModule_ProvidesDbModelFactory.create(dbModuleParam));
     this.provideTeacherProvider = DoubleCheck.provider(DbModule_ProvideTeacherFactory.create(dbModuleParam));
     this.provideStudentProvider = DoubleCheck.provider(DbModule_ProvideStudentFactory.create(dbModuleParam));

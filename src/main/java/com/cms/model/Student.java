@@ -5,6 +5,7 @@ public class Student {
     private String name;
     private String rollNo;
     private double percent;
+    private int age;
 
     public String getName() {
         return name;
@@ -12,15 +13,6 @@ public class Student {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    @Override
-    public String toString() {
-        return "Student{" +
-                "name='" + name + '\'' +
-                ", rollNo='" + rollNo + '\'' +
-                ", percent=" + percent +
-                '}';
     }
 
     public String getRollNo() {
@@ -35,7 +27,23 @@ public class Student {
         return percent;
     }
 
-    public void setPercent(double percent) {
-        this.percent = percent;
+    public void setPercent(double percent) { this.percent = percent; }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "name='" + name + '\'' +
+                ", rollNo='" + rollNo + '\'' +
+                ", percent=" + percent +
+                ", age=" + age +
+                '}';
     }
 }
