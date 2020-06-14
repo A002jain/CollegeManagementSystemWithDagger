@@ -1,18 +1,14 @@
 package com.cms;
 
-import com.cms.component.DaggerObjComponent;
-import com.cms.database.DbModel;
 import com.cms.exception.CmsException;
-import com.cms.service.ICmsService;
+import com.cms.menu.Menu;
 
 public class App {
 
-    public static void main(String[] args) { ;
-        ICmsService service= DaggerObjComponent.builder().build().providesCmsService();
+    public static void main(String[] args) {
+            Menu menu = new Menu();
         try {
-            service.create();
-            service.read("student#12");
-            service.listN();
+            menu.DisplayMenu();
         } catch (CmsException e) {
             e.printStackTrace();
         }

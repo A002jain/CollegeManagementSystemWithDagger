@@ -1,12 +1,15 @@
 package com.cms.component;
 
-import com.cms.database.DbModel;
+import com.cms.database.StudentDB;
+import com.cms.database.TeacherDB;
 import com.cms.model.Student;
 import com.cms.model.Teacher;
 import com.cms.provider.DbModule;
 import com.cms.provider.IRepository;
 import com.cms.provider.IService;
 import com.cms.service.ICmsService;
+import com.cms.stream.Input;
+import com.cms.stream.Output;
 import dagger.Component;
 
 import javax.inject.Singleton;
@@ -19,8 +22,10 @@ import javax.inject.Singleton;
 public interface ObjComponent {
 
     ICmsService providesCmsService();
-    DbModel provideDbModel();
     Teacher provideTeacher();
     Student provideStudent();
-
+    StudentDB provideStudentDatabase();
+    TeacherDB provideTeacherDatabase();
+    Input provideInput();
+    Output provideOutput();
 }

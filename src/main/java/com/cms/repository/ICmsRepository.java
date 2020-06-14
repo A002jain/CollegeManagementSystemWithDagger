@@ -1,16 +1,12 @@
 package com.cms.repository;
 
-import com.cms.database.Database;
-import com.cms.database.DbModel;
-
-import java.util.ArrayList;
-
 public interface ICmsRepository {
 
-    void create(DbModel entity);
-    void update(DbModel entity);
-    DbModel read(String key);
+    void create(Object entity);
+    void update(Object entity);
+    Object read(String key);
     void delete(String key);
-    void listN();
-    void listN(int n);
+    Object listN();
+    Object listN(int n);
+    void setFlag(boolean flag);
 }
