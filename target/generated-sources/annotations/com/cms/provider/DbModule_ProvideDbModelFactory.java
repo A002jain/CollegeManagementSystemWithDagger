@@ -1,6 +1,5 @@
 package com.cms.provider;
 
-import com.cms.database.DbModel;
 import dagger.internal.Factory;
 import dagger.internal.Preconditions;
 import javax.annotation.Generated;

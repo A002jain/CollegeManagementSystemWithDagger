@@ -1,15 +1,17 @@
 package com.cms.component;
 
 import com.cms.database.Database;
-import com.cms.database.DbModel;
+import com.cms.database.StudentDB;
+import com.cms.database.TeacherDB;
 import com.cms.model.Student;
 import com.cms.model.Teacher;
 import com.cms.provider.DbModule;
 import com.cms.provider.DbModule_ProvideIValidatorFactory;
+import com.cms.provider.DbModule_ProvideStudentDBFactory;
 import com.cms.provider.DbModule_ProvideStudentFactory;
+import com.cms.provider.DbModule_ProvideTeacherDBFactory;
 import com.cms.provider.DbModule_ProvideTeacherFactory;
 import com.cms.provider.DbModule_ProvidesDatabaseFactory;
-import com.cms.provider.DbModule_ProvidesDbModelFactory;
 import com.cms.provider.DbModule_ProvidesInputFactory;
 import com.cms.provider.DbModule_ProvidesOutputFactory;
 import com.cms.repository.CmsRepository;
@@ -40,11 +42,13 @@ public final class DaggerObjComponent implements ObjComponent {
 
   private Provider<Output> providesOutputProvider;
 
-  private Provider<DbModel> providesDbModelProvider;
-
   private Provider<Teacher> provideTeacherProvider;
 
   private Provider<Student> provideStudentProvider;
+
+  private Provider<StudentDB> provideStudentDBProvider;
+
+  private Provider<TeacherDB> provideTeacherDBProvider;
 
   private DaggerObjComponent(DbModule dbModuleParam) {
 
@@ -71,18 +75,15 @@ public final class DaggerObjComponent implements ObjComponent {
     this.provideIValidatorProvider = DoubleCheck.provider(DbModule_ProvideIValidatorFactory.create(dbModuleParam));
     this.providesInputProvider = DoubleCheck.provider(DbModule_ProvidesInputFactory.create(dbModuleParam));
     this.providesOutputProvider = DoubleCheck.provider(DbModule_ProvidesOutputFactory.create(dbModuleParam));
-    this.providesDbModelProvider = DoubleCheck.provider(DbModule_ProvidesDbModelFactory.create(dbModuleParam));
     this.provideTeacherProvider = DoubleCheck.provider(DbModule_ProvideTeacherFactory.create(dbModuleParam));
     this.provideStudentProvider = DoubleCheck.provider(DbModule_ProvideStudentFactory.create(dbModuleParam));
+    this.provideStudentDBProvider = DoubleCheck.provider(DbModule_ProvideStudentDBFactory.create(dbModuleParam));
+    this.provideTeacherDBProvider = DoubleCheck.provider(DbModule_ProvideTeacherDBFactory.create(dbModuleParam));
   }
 
   @Override
   public ICmsService providesCmsService() {
     return getCmsService();}
-
-  @Override
-  public DbModel provideDbModel() {
-    return providesDbModelProvider.get();}
 
   @Override
   public Teacher provideTeacher() {
@@ -91,6 +92,22 @@ public final class DaggerObjComponent implements ObjComponent {
   @Override
   public Student provideStudent() {
     return provideStudentProvider.get();}
+
+  @Override
+  public StudentDB provideStudentDatabase() {
+    return provideStudentDBProvider.get();}
+
+  @Override
+  public TeacherDB provideTeacherDatabase() {
+    return provideTeacherDBProvider.get();}
+
+  @Override
+  public Input provideInput() {
+    return providesInputProvider.get();}
+
+  @Override
+  public Output provideOutput() {
+    return providesOutputProvider.get();}
 
   public static final class Builder {
     private DbModule dbModule;

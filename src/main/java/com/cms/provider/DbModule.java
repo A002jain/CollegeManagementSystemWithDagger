@@ -2,7 +2,8 @@ package com.cms.provider;
 
 
 import com.cms.database.Database;
-import com.cms.database.DbModel;
+import com.cms.database.StudentDB;
+import com.cms.database.TeacherDB;
 import com.cms.model.Student;
 import com.cms.model.Teacher;
 import com.cms.stream.Input;
@@ -23,12 +24,14 @@ public class DbModule {
 
     @Provides @Singleton Student provideStudent(){ return new Student(); }
 
-    @Provides @Singleton Database providesDatabase(){
-        return new Database();
+    @Provides @Singleton TeacherDB provideTeacherDB(){
+        return new TeacherDB();
     }
 
-    @Provides @Singleton DbModel providesDbModel(){
-        return new DbModel();
+    @Provides @Singleton StudentDB provideStudentDB(){ return new StudentDB(); }
+
+    @Provides @Singleton Database providesDatabase(){
+        return new Database();
     }
 
     @Provides @Singleton ICmsValidator provideIValidator(){ return new CmsValidator(); }

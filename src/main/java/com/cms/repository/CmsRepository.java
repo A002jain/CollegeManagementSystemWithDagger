@@ -1,46 +1,54 @@
 package com.cms.repository;
 
 import com.cms.database.Database;
-import com.cms.database.DbModel;
+import com.cms.database.StudentDB;
+import com.cms.database.TeacherDB;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
 
 public class CmsRepository implements ICmsRepository {
 
-    ArrayList<DbModel> database;
-
+    Database database;
+    boolean flag;
     @Inject
     public CmsRepository(Database database){
-        this.database =database.getDatabase();
+        this.database =database;
     }
 
     @Override
-    public void create(DbModel entity) {
-            database.add(entity);
+    public void create(Object entity) {
+        if(flag)
+            database.getTeacherDB().add((TeacherDB) entity);
+        else
+            database.getStudentDB().add((StudentDB) entity);
     }
 
     @Override
-    public void update(DbModel entity) {
-            database.add(entity);
+    public void update(Object entity) {
+        if(flag)
+            database.getTeacherDB().add((TeacherDB) entity);
+        else
+            database.getStudentDB().add((StudentDB) entity);
+
     }
 
     @Override
-    public DbModel read(String key) {
+    public Object read(String key) {
         String[] metaData=key.split("#");
         String mapper=metaData[0];
         String id=metaData[1];
+
         switch (mapper){
             case "student":
-                for(DbModel dbModel:database){
-                    if(dbModel.getStudent().getRollNo().equals(id))
-                        return dbModel;
+                for(StudentDB studentDB:database.getStudentDB()){
+                    if(studentDB.getStudent().getRollNo().equals(id))
+                        return studentDB;
                 }
                 break;
             case "teacher":
-                for(DbModel dbModel:database){
-                    if(dbModel.getTeacher().getName().equals(id))
-                        return dbModel;
+                for(TeacherDB teacherDB:database.getTeacherDB()){
+                    if(teacherDB.getTeacher().getName().equals(id))
+                        return teacherDB;
                 }
                 break;
         }
@@ -49,23 +57,35 @@ public class CmsRepository implements ICmsRepository {
 
     @Override
     public void delete(String key) {
-        database.remove(0);
+        Object object=read(key);
+        if(flag)
+            database.getTeacherDB().remove(object);
+        else
+            database.getStudentDB().remove(object);
+
     }
 
     @Override
-    public void listN() {
+    public Object listN() {
+        if(flag)
+            return database.getTeacherDB();
+        else
+            return database.getStudentDB();
+    }
+
+    @Override
+    public Object listN(int n) {
+/*
         for(DbModel dbModel: database){
             System.out.println("->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
             System.out.println(dbModel.toString());
         }
+
+ */ return null;
     }
 
-    @Override
-    public void listN(int n) {
-
-        for(DbModel dbModel: database){
-            System.out.println("->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-            System.out.println(dbModel.toString());
-        }
+    public void setFlag(boolean flag){
+        this.flag=flag;
     }
+
 }
