@@ -1,6 +1,6 @@
 package com.cms.service;
 
-import com.cms.component.DaggerObjComponent;
+
 import com.cms.database.StudentDB;
 import com.cms.database.TeacherDB;
 import com.cms.exception.CmsException;
@@ -12,25 +12,29 @@ import com.cms.stream.Output;
 import com.cms.validator.ICmsValidator;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
+
+
 public class CmsService implements ICmsService {
 
-    public boolean flag;
-    String hash;
-    Teacher teacher;
-    Student student;
-    TeacherDB teacherDB;
-    StudentDB studentDB;
-    Input input;
-    Output output;
-    ICmsRepository repository;
-    ICmsValidator validator;
+    public boolean flag ;
+    private static String hash;
+    private final TeacherDB teacherDB;
+    private final StudentDB studentDB;
+    private final Input input;
+    private final Output output;
+    private final ICmsRepository repository;
+    private final ICmsValidator validator;
 
     @Inject
-    public CmsService(ICmsRepository repository, ICmsValidator validator,Input input,Output output){
+    public CmsService(ICmsRepository repository, ICmsValidator validator,Input input,Output output,
+                      TeacherDB teacherDB, StudentDB studentDB){
         this.validator=validator;
         this.repository=repository;
         this.input=input;
         this.output=output;
+        this.studentDB = studentDB;
+        this.teacherDB = teacherDB;
     }
 
     @Override
@@ -50,13 +54,13 @@ public class CmsService implements ICmsService {
         String key=hash+"#"+input.getString("Enter Key:");
         Object object= repository.read(key);
         if(flag) {
-            studentDB= (StudentDB) object;
-            repository.create(studentDB);
+            StudentDB student= (StudentDB) object;
+            repository.create(student);
             return teacherDB;
         }
         else {
-            teacherDB= (TeacherDB) object;
-            repository.create(teacherDB);
+            TeacherDB teacher= (TeacherDB) object;
+            repository.create(teacher);
             return studentDB;
         }
     }
@@ -78,9 +82,8 @@ public class CmsService implements ICmsService {
         output.print(repository.listN());
     }
 
-    private TeacherDB putTeacherDB() throws CmsException {
-        teacherDB=DaggerObjComponent.create().provideTeacherDatabase();
-        teacher= DaggerObjComponent.create().provideTeacher();
+    private TeacherDB putTeacherDB() {
+        Teacher teacher= new Teacher();
         output.print("Enter Teacher Details");
         teacher.setName(input.getString("Name: "));
         teacher.setAge(input.getInt("Age: "));
@@ -90,9 +93,8 @@ public class CmsService implements ICmsService {
             teacherDB.setTeacher(teacher);
         return teacherDB;
     }
-    private StudentDB putStudentDB()throws CmsException{
-        studentDB=DaggerObjComponent.create().provideStudentDatabase();
-        student= DaggerObjComponent.create().provideStudent();
+    private StudentDB putStudentDB() {
+        Student student = new Student();
         output.print("Enter Student Details");
         student.setName(input.getString("Name: "));
         student.setAge(input.getInt("Age: "));

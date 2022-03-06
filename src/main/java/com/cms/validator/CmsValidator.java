@@ -2,11 +2,19 @@ package com.cms.validator;
 
 import com.cms.model.Student;
 import com.cms.model.Teacher;
+import javax.inject.Inject;
+
 
 public class CmsValidator implements ICmsValidator {
+
+    @Inject
+    public CmsValidator(){
+
+    }
+
     @Override
     public boolean nameValidator(String name) {
-        boolean bool=   ((name != null)
+        boolean bool = ((name != null)
                 && (!name.equals(""))
                 && (name.matches(STRING_REGEX)));
         return bool;

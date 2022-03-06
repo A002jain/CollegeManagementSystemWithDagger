@@ -5,11 +5,14 @@ import com.cms.database.StudentDB;
 import com.cms.database.TeacherDB;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
+
 
 public class CmsRepository implements ICmsRepository {
 
     Database database;
     boolean flag;
+
     @Inject
     public CmsRepository(Database database){
         this.database =database;

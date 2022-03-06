@@ -1,11 +1,16 @@
 package com.cms.model;
 
+import javax.inject.Inject;
+
 public class Teacher {
 
     private String subject;
     private String name;
     private int salary;
     private int age;
+
+    @Inject
+    public Teacher(){}
 
     @Override
     public String toString() {

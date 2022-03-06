@@ -3,25 +3,33 @@ package com.cms.database;
 import com.cms.model.Student;
 import com.cms.model.Teacher;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.ArrayList;
+import java.util.List;
 
+@Singleton
 public class Database {
 
-    int i=0,j=0;
-    private static ArrayList<StudentDB> studentDB = new ArrayList<>();
-    private static ArrayList<TeacherDB> teacherDB = new ArrayList<>();
+    private static int i =0;
+    private static int j =0;
+    private static final ArrayList<StudentDB> studentDB = new ArrayList<>();
+    private static final ArrayList<TeacherDB> teacherDB = new ArrayList<>();
 
-    public ArrayList<StudentDB> getStudentDB() {
-        if(i==0) setDummyStudentData();
+    @Inject
+    public Database(){}
+
+    public List<StudentDB> getStudentDB() {
+        if(i ==0) setDummyStudentData();
         return studentDB;
     }
 
-    public ArrayList<TeacherDB> getTeacherDB(){
-        if(j==0) setDummyTeacherData();
+    public List<TeacherDB> getTeacherDB(){
+        if(j ==0) setDummyTeacherData();
         return teacherDB;
     }
 
-    private void setDummyStudentData(){
+    private static void setDummyStudentData(){
         i++;
         //1
         StudentDB studentD1=new StudentDB();
@@ -52,7 +60,7 @@ public class Database {
         studentDB.add(studentD3);
     }
 
-    private void setDummyTeacherData(){
+    private static void setDummyTeacherData(){
         j++;
         //1
         TeacherDB teacherD1=new TeacherDB();

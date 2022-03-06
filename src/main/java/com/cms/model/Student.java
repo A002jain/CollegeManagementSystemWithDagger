@@ -1,11 +1,16 @@
 package com.cms.model;
 
+import javax.inject.Inject;
+
 public class Student {
 
     private String name;
     private String rollNo;
     private double percent;
     private int age;
+
+    @Inject
+    public Student(){}
 
     public String getName() {
         return name;

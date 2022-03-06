@@ -1,14 +1,13 @@
 package com.cms;
 
+import com.cms.component.DaggerObjComponent;
 import com.cms.exception.CmsException;
-import com.cms.menu.Menu;
 
 public class App {
 
     public static void main(String[] args) {
-            Menu menu = new Menu();
         try {
-            menu.DisplayMenu();
+            DaggerObjComponent.create().provideMenu().displayMenu();
         } catch (CmsException e) {
             e.printStackTrace();
         }

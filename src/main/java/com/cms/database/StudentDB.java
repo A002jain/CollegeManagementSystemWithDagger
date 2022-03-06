@@ -2,9 +2,15 @@ package com.cms.database;
 
 import com.cms.model.Student;
 
+import javax.inject.Inject;
+
 public class StudentDB {
 
     Student student;
+
+    @Inject
+    public StudentDB(){
+    }
 
     public Student getStudent() {
         return student;
